@@ -28,13 +28,19 @@ namespace BaseCampTask1
             }
 
             if (a != min && a != max)
+            {
                 return a;
+            }
 
             if (b != min && b != max)
+            {
                 return b;
+            }
 
             else
+            {
                 return c;
+            }
         }
 
         // 4) Дан произвольный массив чисел, найти уникальные числа в нём. Использовать только циклы, условные операторы.
@@ -51,7 +57,9 @@ namespace BaseCampTask1
                 }
                 
                 if (numberCount == 1)
+                {
                     uniqueNumbers.Add(nums[i]);
+                }
             }
 
             return uniqueNumbers.ToArray();
@@ -107,7 +115,9 @@ namespace BaseCampTask1
             var stringBuilder = new StringBuilder();
 
             for (int i = firstIndex + 1; i < lastIndex; i++)
+            {
                 stringBuilder.Append(str[i]);
+            }
 
             return stringBuilder.ToString();
         }
@@ -143,8 +153,12 @@ namespace BaseCampTask1
                 }
 
                 if (numberCount > 2)
+                {
                     if (!result.Contains(nums[i]))
+                    {
                         result.Add(nums[i]);
+                    }
+                }
             }
 
             return result.ToArray();
