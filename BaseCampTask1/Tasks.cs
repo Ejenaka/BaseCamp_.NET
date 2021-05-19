@@ -138,5 +138,33 @@ namespace BaseCampTask1
             return result.ToArray();
         }
 
+        // ДОП. Найти количество вхождений элементов в массиве
+        public Dictionary<int, int> GetNumbersStatistics(int[] nums)
+        {
+            var result = new Dictionary<int, int>();
+
+            Array.Sort(nums);
+
+            for (int i = 0; i < nums.Length;)
+            {
+                int currentNum = nums[i];
+                int numCount = 0;
+
+                for (int j = i; j < nums.Length; j++)
+                {
+                    if (currentNum == nums[j])
+                    {
+                        numCount++;
+                    }
+                }
+
+                result.Add(currentNum, numCount);
+
+                i += numCount;
+            }
+
+            return result;
+        }
+
     }
 }

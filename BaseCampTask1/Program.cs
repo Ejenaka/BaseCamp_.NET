@@ -52,6 +52,12 @@ namespace BaseCampTask1
                 Console.Write(item + " ");
             Console.WriteLine();
 
+            var numsStatistics = tasks.GetNumbersStatistics(new[] { 1, 1, 2, 3, 4, 4, 4, 2, 6, 9, 5, 5, 5 });
+            foreach (var keyValue in numsStatistics)
+            {
+                Console.WriteLine($"{keyValue.Key}: {keyValue.Value}");
+            }
+
             Console.ReadKey();
         }
     }
