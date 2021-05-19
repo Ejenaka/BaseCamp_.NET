@@ -57,6 +57,10 @@ namespace BaseCampTask1
             return uniqueNumbers.ToArray();
         }
 
+        // Доп. LINQ реализация 4 задания
+        public IEnumerable<int> GetUniqueNumbersLINQ(int[] nums) => nums.Distinct();
+
+
         // 5) Написать метод который сможет транспонировать матрицу.
         public int[,] TransposeMatrix(int[,] matrix)
         {
@@ -106,6 +110,14 @@ namespace BaseCampTask1
                 stringBuilder.Append(str[i]);
 
             return stringBuilder.ToString();
+        }
+
+        // Доп. Реализация LINQ 8 задания
+        public string FindStringLINQ(string str, char delimetr)
+        {
+            char[] result = str.SkipWhile(c => c == delimetr).TakeWhile(c => c == delimetr).ToArray();
+
+            return new string(result);
         }
 
         // 9) Найти слово в произвольной строке и вывести индексы границ этого слова в строке.

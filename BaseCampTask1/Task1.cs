@@ -12,21 +12,21 @@ namespace BaseCampTask1
 
     class Task1
     {
-        private double classAExcellent = 10;
-        private double classAGood = 14;
-        private double classANormal = 4;
+        private double _classAExcellent = 10;
+        private double _classAGood = 14;
+        private double _classANormal = 4;
 
-        private double classBExcellent = 8;
-        private double classBGood = 12;
-        private double classBNormal = 8;
+        private double _classBExcellent = 8;
+        private double _classBGood = 12;
+        private double _classBNormal = 8;
 
-        private readonly double[] studentsFromA;
-        private readonly double[] studentsFromB;
+        private readonly double[] _studentsFromA;
+        private readonly double[] _studentsFromB;
 
         public Task1()
         {
-            studentsFromA = new[] {classAExcellent, classAGood, classANormal};
-            studentsFromB = new[] {classBExcellent, classBGood, classBNormal};
+            _studentsFromA = new[] {_classAExcellent, _classAGood, _classANormal};
+            _studentsFromB = new[] {_classBExcellent, _classBGood, _classBNormal};
         }
 
         public void PrintStudentsInfo()
@@ -40,24 +40,24 @@ namespace BaseCampTask1
         {
             return new double[] 
             { 
-                classAExcellent + classBExcellent, 
-                classAGood + classBGood, 
-                classANormal + classBNormal 
+                _classAExcellent + _classBExcellent, 
+                _classAGood + _classBGood, 
+                _classANormal + _classBNormal 
             };
         }
 
         public void PrintStudentsRatioByClasses()
         {
-            double studentsASum = studentsFromA.Sum();
-            double studentsBSum = studentsFromB.Sum();
+            double studentsASum = _studentsFromA.Sum();
+            double studentsBSum = _studentsFromB.Sum();
 
-            double ratioAExcellent = classAExcellent / studentsASum * 100;
-            double ratioAGood = classAGood / studentsASum * 100;
-            double ratioANormal = classANormal / studentsASum * 100;
+            double ratioAExcellent = _classAExcellent / studentsASum * 100;
+            double ratioAGood = _classAGood / studentsASum * 100;
+            double ratioANormal = _classANormal / studentsASum * 100;
 
-            double ratioBExcellent = classBExcellent / studentsBSum * 100;
-            double ratioBGood = classBGood / studentsBSum * 100;
-            double ratioBNormal = classBNormal / studentsBSum * 100;
+            double ratioBExcellent = _classBExcellent / studentsBSum * 100;
+            double ratioBGood = _classBGood / studentsBSum * 100;
+            double ratioBNormal = _classBNormal / studentsBSum * 100;
 
             Console.WriteLine($"Students A: excellent: {ratioAExcellent}%, good: {ratioAGood}%, normal: {ratioANormal}%");
             Console.WriteLine($"Students B: excellent: {ratioBExcellent}%, good: {ratioBGood}%, normal: {ratioBNormal}%");
@@ -65,13 +65,13 @@ namespace BaseCampTask1
 
         public void PrintStudentsRatio()
         {
-            double studentsASum = studentsFromA.Sum();
-            double studentsBSum = studentsFromB.Sum();
+            double studentsASum = _studentsFromA.Sum();
+            double studentsBSum = _studentsFromB.Sum();
             double studentsSum = studentsASum + studentsBSum;
 
-            double ratioExcellent = (classAExcellent + classBExcellent) / studentsSum * 100;
-            double ratioGood = (classAGood + classBGood) / studentsSum * 100;
-            double ratioNormal = (classANormal + classBNormal) / studentsSum * 100;
+            double ratioExcellent = (_classAExcellent + _classBExcellent) / studentsSum * 100;
+            double ratioGood = (_classAGood + _classBGood) / studentsSum * 100;
+            double ratioNormal = (_classANormal + _classBNormal) / studentsSum * 100;
 
             Console.WriteLine($"All studetns: excellent: {ratioExcellent}%, good: {ratioGood}%, normal: {ratioNormal}%");
         }
