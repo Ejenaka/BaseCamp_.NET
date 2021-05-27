@@ -13,49 +13,72 @@ namespace AutoShopAPI.Controllers
     [Route("[controller]")]
     public class CarsController : ControllerBase
     {
-        private readonly CarRepository _carDB = new CarRepository();
+        private readonly IRepository<Car> _repository;
         private readonly ILogger<Car> _logger;
 
-        public CarsController(ILogger<Car> logger)
+        public CarsController(IRepository<Car> repository, ILogger<Car> logger)
         {
+            _repository = repository;
             _logger = logger;
         }
 
-        // GET: api/<СarsController>
+        // GET: Сars
         [HttpGet]
         public IEnumerable<Car> Get()
         {
-            return _carDB.GetAll();
+            return _repository.GetAll();
         }
 
-        // GET api/<СarsController>/5
+        // GET: Сars/1
         [HttpGet("{id}")]
-        public Car Get(int id)
+        public ActionResult<Car> Get(int id)
         {
-            return _carDB.Get(id);
+            if (id < 1)
+            {
+                return BadRequest();
+            }
+            return _repository.Get(id);
         }
 
-        // POST api/<СarsController>
+        // POST: Сars
         [HttpPost]
-        public void AddCar([FromBody]Car car)
+        public ActionResult AddCar([FromBody]Car car)
         {
             if (ModelState.IsValid)
             {
-                _carDB.Add(car);
+                _repository.Add(car);
+                return Ok();
             }
+
+            return BadRequest();
         }
 
-        // PUT api/<СarsController>/5
+        // PUT: Сars/1
         [HttpPut("{id}")]
-        public void Put(int id, Car car)
+        public IActionResult Put(int id, Car car)
         {
+            if (id < 1)
+            {
+                return BadRequest();
+            }
+
+            _repository.Update(id, car);
+
+            return Ok();
         }
 
-        // DELETE api/<СarsController>/5
+        // DELETE: Сars/1
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public ActionResult<Car> Delete(int id)
         {
-            _carDB.Delete(id);
+            if (id < 1)
+            {
+                return BadRequest();
+            }
+
+            _repository.Delete(id);
+
+            return Ok();
         }
     }
 }

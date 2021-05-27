@@ -6,11 +6,11 @@ using AutoShopAPI.Models;
 
 namespace AutoShopAPI.Repositories
 {
-    public class CarRepository
+    public class CarCollectionRepository
     {
         private static readonly List<Car> _cars;
 
-        static CarRepository()
+        static CarCollectionRepository()
         {
             _cars = new List<Car>
             {

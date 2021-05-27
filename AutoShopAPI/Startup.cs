@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using AutoShopAPI.Repositories;
+using AutoShopAPI.Models;
 
 namespace AutoShopAPI
 {
@@ -32,6 +34,8 @@ namespace AutoShopAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AutoShopAPI", Version = "v1" });
             });
+
+            services.AddTransient<IRepository<Car>, CarFileRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
