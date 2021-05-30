@@ -7,10 +7,10 @@ namespace AutoShopAPI.Repositories
 {
     public interface IRepository<T>
     {
-        IList<T> GetAll();
-        T Get(int id);
-        void Add(T entity);
-        void Update(int id, T entity);
-        void Delete(int id);
+        Task<IList<T>> GetAll();
+        Task<T> Get(int id);
+        Task Add(T entity);
+        Task Update(int id, T entity);
+        Task Delete(int id);
     }
 }

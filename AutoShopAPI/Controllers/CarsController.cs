@@ -24,61 +24,69 @@ namespace AutoShopAPI.Controllers
 
         // GET: Сars
         [HttpGet]
-        public IEnumerable<Car> Get()
+        public async Task<IEnumerable<Car>> Get()
         {
-            return _repository.GetAll();
+            return await _repository.GetAll();
         }
 
         // GET: Сars/1
         [HttpGet("{id}")]
-        public ActionResult<Car> Get(int id)
+        public async Task<ActionResult<Car>> Get(int id)
         {
             if (id < 1)
             {
                 return BadRequest();
             }
-            return _repository.Get(id);
+            return await _repository.Get(id);
         }
 
         // POST: Сars
         [HttpPost]
-        public ActionResult AddCar([FromBody]Car car)
+        public async Task<ActionResult> AddCar([FromBody]Car car)
         {
             if (ModelState.IsValid)
             {
-                _repository.Add(car);
+                await _repository.Add(car);
                 return Ok();
             }
 
-            return BadRequest();
+            return BadRequest(ModelState);
         }
 
         // PUT: Сars/1
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Car car)
+        public async Task<ActionResult> Put(int id, Car car)
         {
             if (id < 1)
             {
-                return BadRequest();
+                ModelState.AddModelError("ID", "ID must be greater 0");
             }
 
-            _repository.Update(id, car);
+            if (ModelState.IsValid)
+            {
+                await _repository.Update(id, car);
+                return Ok();
+            }
 
-            return Ok();
+            return BadRequest(ModelState);
         }
 
         // DELETE: Сars/1
         [HttpDelete("{id}")]
-        public ActionResult<Car> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             if (id < 1)
             {
-                return BadRequest();
+                ModelState.AddModelError("ID", "ID must be greater 0");
             }
 
-            _repository.Delete(id);
-
-            return Ok();
+            if (ModelState.IsValid)
+            {
+                await _repository.Delete(id);
+                return Ok();
+            }
+            
+            return BadRequest(ModelState);
         }
     }
 }
