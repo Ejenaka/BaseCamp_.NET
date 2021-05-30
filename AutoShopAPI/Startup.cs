@@ -11,8 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
 using AutoShopAPI.Repositories;
 using AutoShopAPI.Models;
+using AutoShopAPI.Data;
 
 namespace AutoShopAPI
 {
@@ -28,14 +30,15 @@ namespace AutoShopAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            string connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<AutoShopContext>(options => options.UseSqlServer(connection));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AutoShopAPI", Version = "v1" });
             });
 
-            services.AddTransient<IRepository<Car>, CarFileRepository>();
+            services.AddTransient<IRepository<Car>, CarRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
