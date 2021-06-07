@@ -5,7 +5,11 @@ VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseCampTask1", "BaseCampTask1\BaseCampTask1.csproj", "{1B2DB65D-A35A-41C0-A9F2-3A73C1D6DB85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoShopAPI", "AutoShopAPI\AutoShopAPI.csproj", "{3640E58E-B31C-4372-AAC9-2DC88CBC3331}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoShop.API", "AutoShopAPI\AutoShop.API.csproj", "{3640E58E-B31C-4372-AAC9-2DC88CBC3331}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoShop.Core", "AutoShop.Core\AutoShop.Core.csproj", "{D1F5D4AF-00CF-4F14-A6B4-9549B33143E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoShop.Data", "AutoShop.Data\AutoShop.Data.csproj", "{DB3C6D7E-4495-4E3B-80E9-C1B78002AB4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{3640E58E-B31C-4372-AAC9-2DC88CBC3331}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3640E58E-B31C-4372-AAC9-2DC88CBC3331}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3640E58E-B31C-4372-AAC9-2DC88CBC3331}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1F5D4AF-00CF-4F14-A6B4-9549B33143E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1F5D4AF-00CF-4F14-A6B4-9549B33143E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1F5D4AF-00CF-4F14-A6B4-9549B33143E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1F5D4AF-00CF-4F14-A6B4-9549B33143E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB3C6D7E-4495-4E3B-80E9-C1B78002AB4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB3C6D7E-4495-4E3B-80E9-C1B78002AB4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB3C6D7E-4495-4E3B-80E9-C1B78002AB4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB3C6D7E-4495-4E3B-80E9-C1B78002AB4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
