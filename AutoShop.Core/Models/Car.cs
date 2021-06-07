@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace AutoShopAPI.Models
+namespace AutoShop.Core.Models
 {
     public class Car
     {
@@ -15,5 +12,15 @@ namespace AutoShopAPI.Models
         public double EngineVolume { get; set; }
         public int Mileage { get; set; }
         public string Transmission { get; set; }
+        DateTime PostedDate { get; set; }
+
+        public int UserID { get; set; }
+        public User User { get; set; }
+
+
+        public Car()
+        {
+            PostedDate = DateTime.UtcNow;
+        }
     }
 }

@@ -1,22 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoShop.API.Mapper;
+using AutoShop.Core.Interfaces;
+using AutoShop.Data;
+using AutoShop.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Microsoft.EntityFrameworkCore;
-using AutoShopAPI.Repositories;
-using AutoShopAPI.Models;
-using AutoShopAPI.Data;
+using Newtonsoft.Json;
 
-namespace AutoShopAPI
+namespace AutoShop
 {
     public class Startup
     {
@@ -31,14 +26,18 @@ namespace AutoShopAPI
         public void ConfigureServices(IServiceCollection services)
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<AutoShopContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<AutoShopContext>(options => options.UseSqlServer(connection, b => b.MigrationsAssembly("AutoShop.API")));
+
             services.AddControllers();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AutoShopAPI", Version = "v1" });
             });
 
-            services.AddTransient<IRepository<Car>, CarRepository>();
+            services.AddAutoMapper(m => m.AddProfile(new StandartProfile()));
+            
+            services.AddScoped<IRepositoryManager, RepositoryManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

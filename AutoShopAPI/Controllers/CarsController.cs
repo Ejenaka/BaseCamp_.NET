@@ -1,92 +1,134 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
+using AutoMapper;
+using AutoShop.API.Requests.Cars;
+using AutoShop.API.Responses.Cars;
+using AutoShop.Core.Interfaces;
+using AutoShop.Core.Models;
 using Microsoft.AspNetCore.Mvc;
-using AutoShopAPI.Models;
-using AutoShopAPI.Repositories;
 
-namespace AutoShopAPI.Controllers
+namespace AutoShop.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
     public class CarsController : ControllerBase
     {
-        private readonly IRepository<Car> _repository;
-        private readonly ILogger<Car> _logger;
+        private readonly IRepositoryManager _repositoryManager;
+        private readonly IMapper _mapper;
 
-        public CarsController(IRepository<Car> repository, ILogger<Car> logger)
+        public CarsController(IRepositoryManager repositoryManager, IMapper mapper)
         {
-            _repository = repository;
-            _logger = logger;
+            _repositoryManager = repositoryManager;
+            _mapper = mapper;
         }
 
-        // GET: Сars
+        // GET
         [HttpGet]
-        public async Task<IEnumerable<Car>> Get()
+        public async Task<IEnumerable<Car>> GetAllAsync()
         {
-            return await _repository.GetAll();
+            return await _repositoryManager.Cars.GetAll();
         }
 
-        // GET: Сars/1
+        // GET /id
         [HttpGet("{id}")]
-        public async Task<ActionResult<Car>> Get(int id)
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
             if (id < 1)
             {
-                return BadRequest();
+                return BadRequest("Invalid ID");
             }
-            return await _repository.Get(id);
+
+            var foundCar = await _repositoryManager.Cars.Get(id);
+
+            return Ok(foundCar);
         }
 
-        // POST: Сars
+        // POST
         [HttpPost]
-        public async Task<ActionResult> AddCar([FromBody]Car car)
+        [Route("{userID}")]
+        public async Task<IActionResult> AddCarAsync(int userID, [FromBody] CarCreateRequest request)
         {
-            if (ModelState.IsValid)
+            if (userID < 1)
             {
-                await _repository.Add(car);
-                return Ok();
+                return BadRequest("Invalid User ID");
             }
 
-            return BadRequest(ModelState);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var foundUser = await _repositoryManager.Users.Get(userID);
+
+            if (foundUser == null)
+            {
+                return BadRequest("User not found");
+            }
+
+            var model = _mapper.Map<Car>(request);
+            model.UserID = userID;
+
+            await _repositoryManager.Cars.Add(model);
+
+            var response = _mapper.Map<CarCreateResponse>(model);
+
+            return Ok(response);
         }
 
-        // PUT: Сars/1
+        // PUT
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(int id, Car car)
+        public async Task<ActionResult> UpdateCarAsync(int id, CarUpdateRequest request)
         {
             if (id < 1)
             {
-                ModelState.AddModelError("ID", "ID must be greater 0");
+                return BadRequest("Invalid ID");
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                await _repository.Update(id, car);
-                return Ok();
+                return BadRequest(ModelState);
             }
 
-            return BadRequest(ModelState);
+            var foundCar = await _repositoryManager.Cars.Get(id);
+
+            if (foundCar == null)
+            {
+                return BadRequest("Car not found");
+            }
+
+            _mapper.Map(request, foundCar);
+            
+            await _repositoryManager.Cars.Update(foundCar);
+
+            var response = _mapper.Map<CarUpdateResponse>(foundCar);
+
+            return Ok(response);
         }
 
-        // DELETE: Сars/1
+        // DELETE
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> DeleteCarAsync(int id)
         {
             if (id < 1)
             {
-                ModelState.AddModelError("ID", "ID must be greater 0");
+                return BadRequest("Invalid ID");
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                await _repository.Delete(id);
-                return Ok();
+                return BadRequest(ModelState);
             }
-            
-            return BadRequest(ModelState);
+
+            var foundCar = await _repositoryManager.Cars.Get(id);
+
+            if (foundCar == null)
+            {
+                return BadRequest("Car not found");
+            }
+
+            await _repositoryManager.Cars.Delete(foundCar);
+
+            return Ok();
         }
     }
 }
