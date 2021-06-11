@@ -1,5 +1,7 @@
 using AutoShop.API.Mapper;
+using AutoShop.API.Validators;
 using AutoShop.Core.Interfaces;
+using AutoShop.Core.Models;
 using AutoShop.Data;
 using AutoShop.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -9,9 +11,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json;
+using FluentValidation.AspNetCore;
+using FluentValidation;
 
-namespace AutoShop
+namespace AutoShop.API
 {
     public class Startup
     {
@@ -38,6 +41,10 @@ namespace AutoShop
             services.AddAutoMapper(m => m.AddProfile(new StandartProfile()));
             
             services.AddScoped<IRepositoryManager, RepositoryManager>();
+
+            services.AddMvc().AddFluentValidation();
+            services.AddTransient<IValidator<User>, UserValidator>();
+            services.AddTransient<IValidator<Car>, CarValidator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

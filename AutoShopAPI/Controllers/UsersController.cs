@@ -3,9 +3,12 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoShop.API.Requests.Users;
 using AutoShop.API.Responses.Users;
+using AutoShop.API.Validators;
 using AutoShop.Core.Interfaces;
 using AutoShop.Core.Models;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutoShop.API.Controllers
 {
@@ -15,11 +18,13 @@ namespace AutoShop.API.Controllers
     {
         private readonly IRepositoryManager _repositoryManager;
         private readonly IMapper _mapper;
+        private readonly IValidator<User> _validator;
 
-        public UsersController(IRepositoryManager repositoryManager, IMapper mapper)
+        public UsersController(IRepositoryManager repositoryManager, IMapper mapper, IValidator<User> validator)
         {
             _repositoryManager = repositoryManager;
             _mapper = mapper;
+            _validator = validator;
         }
 
         // GET
@@ -54,6 +59,13 @@ namespace AutoShop.API.Controllers
         {
             var model = _mapper.Map<User>(request);
 
+            var validationResult = await _validator.ValidateAsync(model);
+
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+            
             await _repositoryManager.Users.Add(model);
 
             var response = _mapper.Map<UserCreateResponse>(model);
@@ -71,13 +83,20 @@ namespace AutoShop.API.Controllers
             }
 
             var foundUser = await _repositoryManager.Users.Get(id);
-
+            
             if (foundUser == null)
             {
                 return BadRequest("User is not found");
             }
 
             _mapper.Map(request, foundUser);
+
+            var validation = await _validator.ValidateAsync(foundUser);
+
+            if (!validation.IsValid)
+            {
+                return BadRequest(validation.Errors);
+            }
             
             await _repositoryManager.Users.Update(foundUser);
 
