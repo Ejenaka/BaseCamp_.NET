@@ -16,8 +16,7 @@ namespace AutoShop.Core.Models
 
         public int UserID { get; set; }
         public User User { get; set; }
-
-
+        
         public Car()
         {
             PostedDate = DateTime.UtcNow;

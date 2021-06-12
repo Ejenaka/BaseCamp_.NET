@@ -21,6 +21,7 @@ namespace AutoShop.Core.Models
         public User()
         {
             CreatedDate = DateTime.UtcNow;
+            Cars = new List<Car>();
         }
     }
 }

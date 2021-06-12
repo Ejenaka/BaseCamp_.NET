@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using AutoShop.Core.Interfaces;
 
 namespace AutoShop.Data.Repositories
 {
     public class RepositoryManager : IRepositoryManager
     {
-        private AutoShopContext _context;
+        private readonly AutoShopContext _context;
         private ICarRepository _carRepository;
         private IUserRepository _userRepository;
 
@@ -40,6 +41,11 @@ namespace AutoShop.Data.Repositories
 
                 return _userRepository;
             }
+        }
+        
+        public async Task SaveChanges()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

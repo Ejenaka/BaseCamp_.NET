@@ -18,11 +18,20 @@ namespace AutoShop.Data.Repositories
         {
         }
 
-        //public override async Task<User> Get(int id)
-        //{
-        //    var foundUsers = await FindByCondition(user => user.ID == id);
+        public async Task CreateCarForUser(User user, Car car)
+        {
+            await _context.Cars.AddAsync(car);
+            user.Cars.Add(car);
+            
+            await _context.SaveChangesAsync();
+        }
 
-        //    return foundUsers.FirstOrDefault();
-        //}
+        public async Task<IList<Car>> GetCarsByUser(User user)
+        {
+            return await _context.Cars
+                .Include(c => c.User)
+                .Where(c => c.UserID == user.ID)
+                .ToListAsync();
+        }
     }
 }

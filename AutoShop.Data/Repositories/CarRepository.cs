@@ -17,12 +17,5 @@ namespace AutoShop.Data.Repositories
             : base(context)
         {
         }
-
-        //public override async Task<Car> Get(int id) 
-        //{
-        //    var foundCars = await FindByCondition(car => car.ID == id);
-
-        //    return foundCars.FirstOrDefault();
-        //}
     }
 }

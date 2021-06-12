@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoShop.API.Requests.Cars;
 using AutoShop.API.Requests.Users;
+using AutoShop.API.Responses.Cars;
 using AutoShop.API.Responses.Users;
-using AutoShop.API.Validators;
 using AutoShop.Core.Interfaces;
 using AutoShop.Core.Models;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace AutoShop.API.Controllers
 {
@@ -18,13 +19,21 @@ namespace AutoShop.API.Controllers
     {
         private readonly IRepositoryManager _repositoryManager;
         private readonly IMapper _mapper;
-        private readonly IValidator<User> _validator;
+        private readonly IValidator<User> _userValidator;
+        private readonly IValidator<Car> _carValidator;
 
-        public UsersController(IRepositoryManager repositoryManager, IMapper mapper, IValidator<User> validator)
+        public UsersController
+        (
+            IRepositoryManager repositoryManager, 
+            IMapper mapper, 
+            IValidator<User> validator, 
+            IValidator<Car> carValidator
+        )
         {
             _repositoryManager = repositoryManager;
             _mapper = mapper;
-            _validator = validator;
+            _userValidator = validator;
+            _carValidator = carValidator;
         }
 
         // GET
@@ -59,7 +68,7 @@ namespace AutoShop.API.Controllers
         {
             var model = _mapper.Map<User>(request);
 
-            var validationResult = await _validator.ValidateAsync(model);
+            var validationResult = await _userValidator.ValidateAsync(model);
 
             if (!validationResult.IsValid)
             {
@@ -91,7 +100,7 @@ namespace AutoShop.API.Controllers
 
             _mapper.Map(request, foundUser);
 
-            var validation = await _validator.ValidateAsync(foundUser);
+            var validation = await _userValidator.ValidateAsync(foundUser);
 
             if (!validation.IsValid)
             {
@@ -111,7 +120,7 @@ namespace AutoShop.API.Controllers
         {
             if (id < 1)
             {
-                return BadRequest("Indalid ID");
+                return BadRequest("Invalid ID");
             }
 
             var foundUser = await _repositoryManager.Users.Get(id);
@@ -124,6 +133,61 @@ namespace AutoShop.API.Controllers
             await _repositoryManager.Users.Delete(foundUser);
 
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("{id}/cars")]
+        public async Task<IActionResult> GetCarsByUser(int id)
+        {
+            if (id < 1)
+            {
+                return BadRequest("Invalid User ID");
+            }
+
+            var foundUser = await _repositoryManager.Users.Get(id);
+
+            if (foundUser == null)
+            {
+                return NotFound("User doesn't exist");
+            }
+
+            var cars = await _repositoryManager.Users.GetCarsByUser(foundUser);
+            var response = cars.Select(c => _mapper.Map<CarCreateResponse>(c));
+            
+            return Ok(response);
+        }
+        
+        [HttpPost]
+        [Route("{id}/cars")]
+        public async Task<IActionResult> AddCarForUser(int id, [FromBody] CarCreateRequest request)
+        {
+            if (id < 1)
+            {
+                return BadRequest("Invalid User ID");
+            }
+
+            var foundUser = await _repositoryManager.Users.Get(id);
+
+            if (foundUser == null)
+            {
+                return NotFound("User doesn't exist");
+            }
+
+            var model = _mapper.Map<Car>(request);
+            
+            var validationResult = await _carValidator.ValidateAsync(model);
+
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+
+            await _repositoryManager.Users.CreateCarForUser(foundUser, model);
+
+            var cars = await _repositoryManager.Users.GetCarsByUser(foundUser);
+            var response = cars.Select(c => _mapper.Map<CarCreateResponse>(c));
+            
+            return Ok(response);
         }
     }
 }

@@ -49,22 +49,9 @@ namespace AutoShop.API.Controllers
         // POST
         [HttpPost]
         [Route("{userID}")]
-        public async Task<IActionResult> AddCarAsync(int userID, [FromBody] CarCreateRequest request)
+        public async Task<IActionResult> AddCarAsync([FromBody] CarCreateRequest request)
         {
-            if (userID < 1)
-            {
-                return BadRequest("Invalid User ID");
-            }
-
-            var foundUser = await _repositoryManager.Users.Get(userID);
-
-            if (foundUser == null)
-            {
-                return BadRequest("User not found");
-            }
-
             var model = _mapper.Map<Car>(request);
-            model.UserID = userID;
 
             var validation = await _validator.ValidateAsync(model);
 
