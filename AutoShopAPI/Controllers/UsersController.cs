@@ -13,6 +13,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AutoShop.API.Controllers
 {
+    /// <summary>
+    /// The controller allows managing users
+    /// </summary>
     [Route("[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -36,14 +39,21 @@ namespace AutoShop.API.Controllers
             _carValidator = carValidator;
         }
 
-        // GET
+        /// <summary>
+        /// Get all users
+        /// </summary>
+        /// <returns>Users</returns>
         [HttpGet]
         public async Task<IEnumerable<User>> GetAllAsync()
         {
             return await _repositoryManager.Users.GetAll();
         }
 
-        // GET ALL
+        /// <summary>
+        /// Get user by id
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <returns>User</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
@@ -62,7 +72,11 @@ namespace AutoShop.API.Controllers
             return Ok(foundUser);
         }
 
-        // POST
+        /// <summary>
+        /// Creates new user
+        /// </summary>
+        /// <param name="request">Request model</param>
+        /// <returns>Created user</returns>
         [HttpPost]
         public async Task<IActionResult> CreateUserAsync([FromBody] UserCreateRequest request)
         {
@@ -82,7 +96,12 @@ namespace AutoShop.API.Controllers
             return Ok(response);
         }
 
-        // PUT
+        /// <summary>
+        /// Updates user
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <param name="request">Request model</param>
+        /// <returns>Updated user</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUserAsync(int id, [FromBody] UserUpdateRequest request)
         {
@@ -114,7 +133,11 @@ namespace AutoShop.API.Controllers
             return Ok(response);
         }
 
-        // DELETE
+        /// <summary>
+        /// Deletes user
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUserAsync(int id)
         {
@@ -135,6 +158,11 @@ namespace AutoShop.API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Get user's cars
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <returns>User's cars</returns>
         [HttpGet]
         [Route("{id}/cars")]
         public async Task<IActionResult> GetCarsByUser(int id)
@@ -157,6 +185,12 @@ namespace AutoShop.API.Controllers
             return Ok(response);
         }
         
+        /// <summary>
+        /// Creates new car for user
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <param name="request">Request model</param>
+        /// <returns>User's cars</returns>
         [HttpPost]
         [Route("{id}/cars")]
         public async Task<IActionResult> AddCarForUser(int id, [FromBody] CarCreateRequest request)

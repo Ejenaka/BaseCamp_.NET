@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace AutoShop.Core.Models
 {
@@ -15,6 +16,8 @@ namespace AutoShop.Core.Models
         public DateTime PostedDate { get; set; }
 
         public int UserID { get; set; }
+        
+        [JsonIgnore]
         public User User { get; set; }
         
         public Car()

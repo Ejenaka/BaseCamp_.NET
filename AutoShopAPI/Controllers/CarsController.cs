@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AutoShop.API.Controllers
 {
+    /// <summary>
+    /// Controller allows managing the cars
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class CarsController : ControllerBase
@@ -18,6 +21,9 @@ namespace AutoShop.API.Controllers
         private readonly IMapper _mapper;
         private readonly IValidator<Car> _validator;
 
+        /// <summary>
+        /// Cars controller constructor
+        /// </summary>
         public CarsController(IRepositoryManager repositoryManager, IMapper mapper, IValidator<Car> validator)
         {
             _repositoryManager = repositoryManager;
@@ -25,14 +31,21 @@ namespace AutoShop.API.Controllers
             _validator = validator;
         }
 
-        // GET
+        /// <summary>
+        /// Get all cars
+        /// </summary>
+        /// <returns>All cars</returns>
         [HttpGet]
         public async Task<IEnumerable<Car>> GetAllAsync()
         {
             return await _repositoryManager.Cars.GetAll();
         }
 
-        // GET /id
+        /// <summary>
+        /// Get car by id
+        /// </summary>
+        /// <param name="id">Car id</param>
+        /// <returns>Car</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
@@ -46,7 +59,11 @@ namespace AutoShop.API.Controllers
             return Ok(foundCar);
         }
 
-        // POST
+        /// <summary>
+        /// Creates new car
+        /// </summary>
+        /// <param name="request">Request model</param>
+        /// <returns>Created car</returns>
         [HttpPost]
         [Route("{userID}")]
         public async Task<IActionResult> AddCarAsync([FromBody] CarCreateRequest request)
@@ -67,7 +84,12 @@ namespace AutoShop.API.Controllers
             return Ok(response);
         }
 
-        // PUT
+        /// <summary>
+        /// Updates car
+        /// </summary>
+        /// <param name="id">Car id</param>
+        /// <param name="request">Request model</param>
+        /// <returns>Updated car</returns>
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateCarAsync(int id, CarUpdateRequest request)
         {
@@ -99,7 +121,11 @@ namespace AutoShop.API.Controllers
             return Ok(response);
         }
 
-        // DELETE
+        /// <summary>
+        /// Deletes car
+        /// </summary>
+        /// <param name="id">Car id</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteCarAsync(int id)
         {
