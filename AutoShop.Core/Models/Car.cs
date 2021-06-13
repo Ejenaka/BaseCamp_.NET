@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace AutoShop.Core.Models
 {
@@ -12,12 +13,13 @@ namespace AutoShop.Core.Models
         public double EngineVolume { get; set; }
         public int Mileage { get; set; }
         public string Transmission { get; set; }
-        DateTime PostedDate { get; set; }
+        public DateTime PostedDate { get; set; }
 
         public int UserID { get; set; }
+        
+        [JsonIgnore]
         public User User { get; set; }
-
-
+        
         public Car()
         {
             PostedDate = DateTime.UtcNow;

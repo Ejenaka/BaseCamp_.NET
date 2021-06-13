@@ -7,6 +7,7 @@ using AutoShop.Core;
 using AutoShop.Data;
 using AutoShop.Data.Repositories;
 using AutoShop.Core.Interfaces;
+using AutoShop.Core.Interfaces.Repositories;
 using AutoShop.Core.Models;
 
 namespace AutoShop.Data.Repositories
@@ -17,12 +18,5 @@ namespace AutoShop.Data.Repositories
             : base(context)
         {
         }
-
-        //public override async Task<Car> Get(int id) 
-        //{
-        //    var foundCars = await FindByCondition(car => car.ID == id);
-
-        //    return foundCars.FirstOrDefault();
-        //}
     }
 }

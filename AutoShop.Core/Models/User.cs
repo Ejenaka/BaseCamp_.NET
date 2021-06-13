@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoShop.Core.Enums;
 
 namespace AutoShop.Core.Models
 {
@@ -14,13 +15,14 @@ namespace AutoShop.Core.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime CreatedDate { get; set; }
-        public string UserRole { get; set; }
+        public UserRoleEnum Role { get; set; }
 
         public List<Car> Cars { get; set; }
 
         public User()
         {
             CreatedDate = DateTime.UtcNow;
+            Cars = new List<Car>();
         }
     }
 }

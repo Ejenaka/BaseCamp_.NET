@@ -7,6 +7,7 @@ using AutoShop.Core;
 using AutoShop.Data;
 using Microsoft.EntityFrameworkCore;
 using AutoShop.Core.Interfaces;
+using AutoShop.Core.Interfaces.Repositories;
 using AutoShop.Core.Models;
 
 namespace AutoShop.Data.Repositories
@@ -18,11 +19,39 @@ namespace AutoShop.Data.Repositories
         {
         }
 
-        //public override async Task<User> Get(int id)
-        //{
-        //    var foundUsers = await FindByCondition(user => user.ID == id);
+        public override async Task<IList<User>> GetAll()
+        {
+            return await _context.Users.Include(u => u.Cars).ToListAsync();
+        }
 
-        //    return foundUsers.FirstOrDefault();
-        //}
+        public async Task<User> GetUserByLogin(string login)
+        {
+            var foundUsers = await FindByCondition(u => u.Login == login);
+
+            return foundUsers.FirstOrDefault();
+        }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            var foundUsers = await FindByCondition(u => u.Email == email);
+
+            return foundUsers.FirstOrDefault();
+        }
+
+        public async Task CreateCarForUser(User user, Car car)
+        {
+            await _context.Cars.AddAsync(car);
+            user.Cars.Add(car);
+            
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<IList<Car>> GetCarsByUser(User user)
+        {
+            return await _context.Cars
+                .Include(c => c.User)
+                .Where(c => c.UserID == user.ID)
+                .ToListAsync();
+        }
     }
 }
