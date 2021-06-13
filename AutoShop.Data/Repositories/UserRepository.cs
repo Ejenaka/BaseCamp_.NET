@@ -18,6 +18,11 @@ namespace AutoShop.Data.Repositories
         {
         }
 
+        public override async Task<IList<User>> GetAll()
+        {
+            return await _context.Users.Include(u => u.Cars).ToListAsync();
+        }
+
         public async Task CreateCarForUser(User user, Car car)
         {
             await _context.Cars.AddAsync(car);

@@ -35,7 +35,7 @@ namespace AutoShop.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IList<T>> GetAll() 
+        public virtual async Task<IList<T>> GetAll() 
         {
             return await _context.Set<T>().AsNoTracking().ToListAsync();
         }
