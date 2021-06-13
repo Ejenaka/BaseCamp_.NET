@@ -7,6 +7,7 @@ using AutoShop.Core;
 using AutoShop.Data;
 using AutoShop.Data.Repositories;
 using AutoShop.Core.Interfaces;
+using AutoShop.Core.Interfaces.Repositories;
 using AutoShop.Core.Models;
 
 namespace AutoShop.Data.Repositories

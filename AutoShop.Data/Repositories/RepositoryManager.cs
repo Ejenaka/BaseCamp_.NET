@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using AutoShop.Core.Interfaces;
+using AutoShop.Core.Interfaces.Repositories;
 
 namespace AutoShop.Data.Repositories
 {

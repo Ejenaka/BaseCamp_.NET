@@ -1,7 +1,6 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace AutoShop.Core.Interfaces
+namespace AutoShop.Core.Interfaces.Repositories
 {
     public interface IRepositoryManager
     {

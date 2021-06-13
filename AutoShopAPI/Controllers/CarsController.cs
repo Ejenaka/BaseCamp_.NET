@@ -3,9 +3,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoShop.API.Requests.Cars;
 using AutoShop.API.Responses.Cars;
-using AutoShop.Core.Interfaces;
+using AutoShop.Core.Interfaces.Repositories;
 using AutoShop.Core.Models;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoShop.API.Controllers

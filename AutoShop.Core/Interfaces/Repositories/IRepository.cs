@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace AutoShop.Core.Interfaces
+namespace AutoShop.Core.Interfaces.Repositories
 {
     public interface IRepository<T>
     {

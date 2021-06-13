@@ -7,6 +7,7 @@ using AutoShop.API.Requests.Users;
 using AutoShop.API.Responses.Cars;
 using AutoShop.API.Responses.Users;
 using AutoShop.Core.Interfaces;
+using AutoShop.Core.Interfaces.Repositories;
 using AutoShop.Core.Models;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
